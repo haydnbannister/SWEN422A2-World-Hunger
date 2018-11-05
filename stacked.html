@@ -78,16 +78,58 @@
 
 
 
-    d3.csv("/Data/2000.csv", function(data) {
+
+
+    d3.csv("/data/2000.csv", function(data) {
         data.forEach(function(d) {
             d.key = d.Country;
-            d.values = [+d.Millions, +d.Percent];
+            d.values = [
+                [ 2000 , 13.242301508051] ,
+                [ 2001 , 12.863536342042] ,
+                [ 2002 , 21.034044171629] ,
+                [ 2003 , 21.419084618803] ,
+                [ 2004 , 21.142678863691] ,
+                [ 2005 , 26.568489677529] ,
+                [ 2006 , 24.839144939905] ,
+                [ 2007 , 25.456187462167] ,
+                [ 2008 , 26.350164502826] ,
+                [ 2009 , 26.478333205194] ,
+                [ 2010 , 26.425979547847] ,
+                [ 2011 , 28.191461582256] ,
+                [ 2012 , 28.930307448808] ,
+                [ 2013 , 29.521413891117] ,
+                [ 2014 , 28.188285966466] ,
+                [ 2015 , 27.704619625832]
+            ]
+
+
+            // d.values = [
+            //     [ 2000 , d.m2000] ,
+            //     [ 2001 , d.m2001] ,
+            //     [ 2002 , d.m2002] ,
+            //     [ 2003 , d.m2003] ,
+            //     [ 2004 , d.m2004] ,
+            //     [ 2005 , d.m2005] ,
+            //     [ 2006 , d.m2006] ,
+            //     [ 2007 , d.m2007] ,
+            //     [ 2008 , d.m2008] ,
+            //     [ 2009 , d.m2009] ,
+            //     [ 2010 , d.m2010] ,
+            //     [ 2011 , d.m2011] ,
+            //     [ 2012 , d.m2012] ,
+            //     [ 2013 , d.m2013] ,
+            //     [ 2014 , d.m2014] ,
+            //     [ 2015 , d.m2015]
+            // ]
 
         });
 
-        console.log(data);
-    });
+
+
+
+
     console.log(histcatexplong);
+    console.log(data);
 
     var colors = d3.scale.category20();
     var chart;
@@ -98,11 +140,11 @@
             .y(function(d) { return d[1] })
             .controlLabels({stacked: "Stacked"})
             .duration(300);
-        chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
-        chart.yAxis.tickFormat(d3.format(',.4f'));
+        //chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+        chart.yAxis.tickFormat(d3.format(',.1f'));
         chart.legend.vers('furious');
         d3.select('#chart1')
-            .datum(histcatexplong)
+            .datum(data)
             .transition().duration(1000)
             .call(chart)
             .each('start', function() {
@@ -115,6 +157,7 @@
             });
         nv.utils.windowResize(chart.update);
         return chart;
+    });
     });
 </script>
 </body>
