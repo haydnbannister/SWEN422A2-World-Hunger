@@ -81,55 +81,111 @@
 
 
     d3.csv("/data/2000.csv", function(data) {
-        data.forEach(function(d) {
-            d.key = d.Country;
+
+
+        //FOR CONTINENT CODE
+        var ByContinent = d3.nest()
+            .key(function (d) {
+                return d["Continent Code"];
+            })
+            .entries(data);
+
+        ByContinent.forEach(function (d) {
+            var sums = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < d.values.length; i++) {
+                console.log(+d.values[i].Millions);
+                sums[0] += +d.values[i].Millions;
+                // sums[0] += +d.values[i].m2000;
+                // sums[1] += +d.values[i].m2001;
+                // sums[2] += +d.values[i].m2002;
+                // sums[3] += +d.values[i].m2003;
+                // sums[4] += +d.values[i].m2004;
+                // sums[5] += +d.values[i].m2005;
+                // sums[6] += +d.values[i].m2006;
+                // sums[7] += +d.values[i].m2007;
+                // sums[8] += +d.values[i].m2008;
+                // sums[9] += +d.values[i].m2009;
+                // sums[10] += +d.values[i].m2010;
+                // sums[11] += +d.values[i].m2011;
+                // sums[12] += +d.values[i].m2012;
+                // sums[13] += +d.values[i].m2013;
+                // sums[14] += +d.values[i].m2014;
+                // sums[15] += +d.values[i].m2015;
+            }
+            d.sum = sums[0];
+        });
+
+        ByContinent.forEach(function (d) {
             d.values = [
-                [ 2000 , 13.242301508051] ,
-                [ 2001 , 12.863536342042] ,
-                [ 2002 , 21.034044171629] ,
-                [ 2003 , 21.419084618803] ,
-                [ 2004 , 21.142678863691] ,
-                [ 2005 , 26.568489677529] ,
-                [ 2006 , 24.839144939905] ,
-                [ 2007 , 25.456187462167] ,
-                [ 2008 , 26.350164502826] ,
-                [ 2009 , 26.478333205194] ,
-                [ 2010 , 26.425979547847] ,
-                [ 2011 , 28.191461582256] ,
-                [ 2012 , 28.930307448808] ,
-                [ 2013 , 29.521413891117] ,
-                [ 2014 , 28.188285966466] ,
-                [ 2015 , 27.704619625832]
+                [2000, d.sum],
+                [2001, d.sum*0.9],
+                [2002, d.sum*0.92],
+                [2003, d.sum*1.15],
+                [2004, d.sum],
+                [2005, d.sum],
+                [2006, d.sum],
+                [2007, d.sum],
+                [2008, d.sum],
+                [2009, d.sum],
+                [2010, d.sum],
+                [2011, d.sum],
+                [2012, d.sum],
+                [2013, d.sum],
+                [2014, d.sum],
+                [2015, d.sum]
             ]
-
-
-            // d.values = [
-            //     [ 2000 , d.m2000] ,
-            //     [ 2001 , d.m2001] ,
-            //     [ 2002 , d.m2002] ,
-            //     [ 2003 , d.m2003] ,
-            //     [ 2004 , d.m2004] ,
-            //     [ 2005 , d.m2005] ,
-            //     [ 2006 , d.m2006] ,
-            //     [ 2007 , d.m2007] ,
-            //     [ 2008 , d.m2008] ,
-            //     [ 2009 , d.m2009] ,
-            //     [ 2010 , d.m2010] ,
-            //     [ 2011 , d.m2011] ,
-            //     [ 2012 , d.m2012] ,
-            //     [ 2013 , d.m2013] ,
-            //     [ 2014 , d.m2014] ,
-            //     [ 2015 , d.m2015]
-            // ]
-
         });
 
 
+        //
+        // // PER COUNTRY WITH TEST DATA
+        // data.forEach(function(d) {
+        //     d.key = d.Country;
+        //     d.values = [
+        //         [ 2000 , 23.419084618803] ,
+        //         [ 2001 , 25.419084618803] ,
+        //         [ 2002 , 28.419084618803] ,
+        //         [ 2003 , 21.419084618803] ,
+        //         [ 2004 , 21.142678863691] ,
+        //         [ 2005 , 26.568489677529] ,
+        //         [ 2006 , 24.839144939905] ,
+        //         [ 2007 , 25.456187462167] ,
+        //         [ 2008 , 26.350164502826] ,
+        //         [ 2009 , 26.478333205194] ,
+        //         [ 2010 , 26.425979547847] ,
+        //         [ 2011 , 28.191461582256] ,
+        //         [ 2012 , 28.930307448808] ,
+        //         [ 2013 , 29.521413891117] ,
+        //         [ 2014 , 28.188285966466] ,
+        //         [ 2015 , 27.704619625832]
+        //     ]
+        //})
 
 
+        // PER COUNTRY WITH ACTUAL DATA
+        // data.forEach(function(d) {
+        //     d.key = d.Country;
+        //     d.values = [
+        //     [ 2000 , d.m2000] ,
+        //     [ 2001 , d.m2001] ,
+        //     [ 2002 , d.m2002] ,
+        //     [ 2003 , d.m2003] ,
+        //     [ 2004 , d.m2004] ,
+        //     [ 2005 , d.m2005] ,
+        //     [ 2006 , d.m2006] ,
+        //     [ 2007 , d.m2007] ,
+        //     [ 2008 , d.m2008] ,
+        //     [ 2009 , d.m2009] ,
+        //     [ 2010 , d.m2010] ,
+        //     [ 2011 , d.m2011] ,
+        //     [ 2012 , d.m2012] ,
+        //     [ 2013 , d.m2013] ,
+        //     [ 2014 , d.m2014] ,
+        //     [ 2015 , d.m2015]
+        // ]
+        //})
 
-    console.log(histcatexplong);
-    console.log(data);
 
     var colors = d3.scale.category20();
     var chart;
@@ -144,7 +200,7 @@
         chart.yAxis.tickFormat(d3.format(',.1f'));
         chart.legend.vers('furious');
         d3.select('#chart1')
-            .datum(data)
+            .datum(ByContinent)
             .transition().duration(1000)
             .call(chart)
             .each('start', function() {
