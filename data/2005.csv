@@ -1,0 +1,106 @@
+Country,Country Code,Continent Code,Percent,Millions
+Afghanistan,AFG,AS,33.2,8.1
+Albania,ALB,EU,11.1,0.3
+Algeria,DZA,AF,8.8,2.9
+Angola,AGO,AS,32.1,5.8
+Argentina,ARG,EU,4.7,1.9
+Armenia,ARM,EU,8.0,0.2
+Azerbaijan,AZE,EU,5.7,0.5
+Bangladesh,BGD,AS,16.6,23.7
+Belarus,BLR,EU,3.0,0.3
+Benin,BEN,EU,15.4,1.3
+Bolivia (Plurinational State of),BOL,NA,30.3,2.8
+Bosnia and Herzegovina,BIH,EU,3.4,0.1
+Botswana,BWA,AN,32.0,0.6
+Brazil,BRA,NA,4.5,8.6
+Bulgaria,BGR,AN,6.5,0.5
+Burkina Faso,BFA,EU,24.9,3.3
+Cambodia,KHM,AS,20.0,2.7
+Cameroon,CMR,AN,20.2,3.7
+Central African Republic,CAF,AN,39.9,1.6
+Chad,TCD,OC,39.2,3.9
+Chile,CHL,AN,4.0,0.6
+China,CHN,AN,15.3,204.3
+Colombia,COL,AN,9.7,4.2
+Congo,COD,AN,33.4,1.2
+Congo,COG,AN,33.4,1.2
+Costa Rica,CRI,AN,5.4,0.2
+Ivory Coast,CIV,AN,16.2,2.9
+Croatia,HRV,NA,2.9,0.1
+North Korea,PRK,AS,35.4,8.4
+Djibouti,DJI,AN,32.5,0.3
+Dominican Republic,DOM,NA,24.4,2.3
+Ecuador,ECU,NA,17.0,2.3
+Egypt,EGY,NA,5.4,4.1
+El Salvador,SLV,OC,10.7,0.6
+Ethiopia,ETH,NA,39.7,30.4
+Gabon,GAB,NA,9.7,0.1
+Gambia,GMB,NA,15.1,0.2
+Georgia,GEO,NA,7.4,0.3
+Ghana,GHA,NA,9.3,2.0
+Guatemala,GTM,NA,16.0,2.1
+Guinea,GIN,AF,21.4,2.1
+Guinea-Bissau,GNB,NA,24.9,0.4
+Haiti,HTI,NA,57.1,5.3
+Honduras,HND,NA,17.2,1.2
+India,IND,NA,20.5,234.9
+Indonesia,IDN,NA,18.6,42.1
+Iran,IRN,AS,6.1,4.3
+Iraq,IRQ,AS,28.2,7.6
+Jamaica,JAM,AS,6.9,0.2
+Jordan,JOR,AS,3.4,0.2
+Kazakhstan,KAZ,AS,5.8,0.9
+Kenya,KEN,AS,28.7,10.2
+Kyrgyzstan,KGZ,AS,9.7,0.5
+Laos,LAO,AS,26.8,1.5
+Lebanon,LBN,AS,3.5,0.1
+Lesotho,LSO,AS,11.7,0.2
+Liberia,LBR,AS,39.4,1.3
+Madagascar,MDG,AS,35.1,6.4
+Malawi,MWI,AS,26.2,3.3
+Malaysia,MYS,AS,3.9,1.0
+Mali,MLI,AS,11.2,1.4
+Mauritania,MRT,AS,12.2,0.4
+Mexico,MEX,AS,5.5,6.1
+Mongolia,MNG,AS,31.0,0.8
+Morocco,MAR,AS,5.8,1.8
+Mozambique,MOZ,AS,37.0,7.8
+Myanmar,MMR,AS,32.1,16.1
+Namibia,NAM,AS,25.2,0.5
+Nepal,NPL,AS,15.9,4.1
+Nicaragua,NIC,AS,24.4,1.3
+Niger,NER,AS,15.2,2.1
+Nigeria,NGA,AS,6.6,9.2
+Oman,OMN,AS,10.0,0.3
+Pakistan,PAK,AS,23.3,35.7
+Panama,PAN,AS,23.1,0.8
+Paraguay,PRY,AS,11.9,0.7
+Peru,PER,AS,19.6,5.4
+Philippines,PHL,AS,16.3,14.1
+Moldova,MDA,AS,24.2,1.0
+Rwanda,RWA,AS,44.5,4.0
+Saudi Arabia,SAU,AS,8.0,2.0
+Senegal,SEN,AS,21.3,2.4
+Sierra Leone,SLE,OC,37.2,1.9
+Slovakia,SVK,OC,6.2,0.3
+South Africa,ZAF,AF,4.2,2.0
+Sri Lanka,LKA,AS,29.4,5.7
+Swaziland,SWZ,OC,17.3,0.2
+Tajikistan,TJK,OC,41.5,2.8
+Thailand,THA,OC,12.3,8.1
+Macedonia,MKD,AS,6.1,0.1
+East Timor,TLS,OC,31.9,0.3
+Togo,TGO,OC,25.6,1.4
+Trinidad and Tobago,TTO,OC,11.8,0.2
+Tunisia,TUN,OC,5.6,0.6
+Turkmenistan,TKM,OC,4.8,0.2
+Uganda,UGA,OC,24.3,6.8
+United Arab Emirates,ARE,EU,4.2,0.2
+Tanzania,TZA,OC,34.6,13.5
+Uruguay,URY,OC,4.3,0.1
+Uzbekistan,UZB,OC,14.5,3.8
+Venezuela,VEN,OC,10.5,2.8
+Vietnam,VNM,OC,18.2,15.3
+Yemen,YEM,AF,30.1,6.2
+Zambia,ZMB,AF,51.3,6.2
+Zimbabwe,ZWE,AF,40.0,5.2
