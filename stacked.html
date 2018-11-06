@@ -21,7 +21,7 @@
         }
 
 
-        .button {
+        .category-button {
             background-color: steelblue;
             border: none;
             color: white;
@@ -32,7 +32,7 @@
             font-size: 20px;
             margin-top: 10px;
         }
-        .button-clicked {
+        .category-button-clicked {
             background-color: green;
             border: none;
             color: white;
@@ -44,6 +44,28 @@
             margin-top: 10px;
         }
 
+        .mode-button {
+            background-color: steelblue;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+        .mode-button-clicked {
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin-top: 10px;
+        }
 
         .control-group {
             margin-left: 60px;
@@ -55,31 +77,40 @@
 
 <body class='with-3d-shadow with-transitions'>
 
+<div class="control-group">
+    <button class="mode-button" onclick="modeChange('millions'); modeButton(this)">
+        Millions
+    </button>
+    <button class="mode-button" onclick="modeChange('percent'); modeButton(this)">
+        Percentage
+    </button>
+</div>
+
 <svg id="chart1"></svg>
 
 <div class="control-group">
-    <button class="button" onclick="filterChange('continent'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('continent'); highlightButton(this)">
         Continents
     </button>
-    <button class="button" onclick="filterChange('all'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('all'); highlightButton(this)">
         All Countries
     </button>
 </div>
 
 <div class="control-group">
-    <button class="button" onclick="filterChange('AF'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('AF'); highlightButton(this)">
         African Countries
     </button>
-    <button class="button" onclick="filterChange('EU'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('EU'); highlightButton(this)">
         European Countries
     </button>
-    <button class="button" onclick="filterChange('SA'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('SA'); highlightButton(this)">
         South American Countries
     </button>
-    <button class="button" onclick="filterChange('AS'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('AS'); highlightButton(this)">
         Asian Countries
     </button>
-    <button class="button" onclick="filterChange('NA'); highlightButton(this)">
+    <button class="category-button" onclick="filterChange('NA'); highlightButton(this)">
         North American Countries
     </button>
 </div>
@@ -88,14 +119,28 @@
     var clickedBuffer=null;
     function highlightButton(obj){
         if (clickedBuffer === null) {
-            obj.className=' button-clicked ';
+            obj.className=' category-button-clicked ';
         }
         else{
             /* note the class name contains a black character  before and after the word !! */
-            clickedBuffer.className = ' button ';
-            obj.className= obj.className + ' button-clicked ';
+            clickedBuffer.className = ' category-button ';
+            obj.className= obj.className + ' category-button-clicked ';
         }
         clickedBuffer=obj;
+        return false; /* ONLY if you want the  button not to lead to another HTML doc*/
+    }
+
+    var modeBuffer=null;
+    function modeButton(obj){
+        if (modeBuffer === null) {
+            obj.className=' mode-button-clicked ';
+        }
+        else{
+            /* note the class name contains a black character  before and after the word !! */
+            modeBuffer.className = ' mode-button ';
+            obj.className= obj.className + ' mode-button-clicked ';
+        }
+        modeBuffer=obj;
         return false; /* ONLY if you want the  button not to lead to another HTML doc*/
     }
 </script>
@@ -109,6 +154,10 @@
     var mode = "percent";
     filterData("generate");
 
+    function modeChange(modeC){
+        mode = modeC;
+        filterData("update");
+    }
 
     function filterChange(filterC) {
         filter = filterC;
@@ -173,6 +222,9 @@
         var selectedData;
 
         d3.csv("/data/stacked-data.csv", function (data) {
+
+            console.log(filter);
+
             if (filter == "continent") {
                 var ByContinent = d3.nest()
                     .key(function (d) {
@@ -206,7 +258,7 @@
                             sums[14] += +d.values[i].m2014;
                             sums[15] += +d.values[i].m2015;
                         }
-                    }else{
+                    }else{ // percentage
                         for (var i = 0; i < d.values.length; i++) {
                             sums[0] += +d.values[i].p2000;
                             sums[1] += +d.values[i].p2001;
@@ -232,8 +284,6 @@
 
                 // Allocates the sums to the years in 2d array of values
                 ByContinent.forEach(function (d) {
-
-                    
                     d.values = [
                         [2000, d.sums[0]],
                         [2001, d.sums[1]],
@@ -264,24 +314,46 @@
                 }
                 data.forEach(function (d) {
                     d.key = d.Country;
-                    d.values = [
-                        [2000, +d.m2000],
-                        [2001, +d.m2001],
-                        [2002, +d.m2002],
-                        [2003, +d.m2003],
-                        [2004, +d.m2004],
-                        [2005, +d.m2005],
-                        [2006, +d.m2006],
-                        [2007, +d.m2007],
-                        [2008, +d.m2008],
-                        [2009, +d.m2009],
-                        [2010, +d.m2010],
-                        [2011, +d.m2011],
-                        [2012, +d.m2012],
-                        [2013, +d.m2013],
-                        [2014, +d.m2014],
-                        [2015, +d.m2015]
-                    ]
+
+                    if(mode == "millions") {
+                        d.values = [
+                            [2000, +d.m2000],
+                            [2001, +d.m2001],
+                            [2002, +d.m2002],
+                            [2003, +d.m2003],
+                            [2004, +d.m2004],
+                            [2005, +d.m2005],
+                            [2006, +d.m2006],
+                            [2007, +d.m2007],
+                            [2008, +d.m2008],
+                            [2009, +d.m2009],
+                            [2010, +d.m2010],
+                            [2011, +d.m2011],
+                            [2012, +d.m2012],
+                            [2013, +d.m2013],
+                            [2014, +d.m2014],
+                            [2015, +d.m2015]
+                        ]
+                    }else{ // percentage
+                        d.values = [
+                            [2000, +d.p2000],
+                            [2001, +d.p2001],
+                            [2002, +d.p2002],
+                            [2003, +d.p2003],
+                            [2004, +d.p2004],
+                            [2005, +d.p2005],
+                            [2006, +d.p2006],
+                            [2007, +d.p2007],
+                            [2008, +d.p2008],
+                            [2009, +d.p2009],
+                            [2010, +d.p2010],
+                            [2011, +d.p2011],
+                            [2012, +d.p2012],
+                            [2013, +d.p2013],
+                            [2014, +d.p2014],
+                            [2015, +d.p2015]
+                        ]
+                    }
                 });
                 selectedData = data;
 
