@@ -78,10 +78,10 @@
 <body class='with-3d-shadow with-transitions'>
 
 <div class="control-group">
-    <button class="mode-button" onclick="modeChange('millions'); modeButton(this)">
+    <button id="millions" class="mode-button" onclick="modeChange('millions'); modeButton(this)">
         Millions
     </button>
-    <button class="mode-button" onclick="modeChange('percent'); modeButton(this)">
+    <button id="percent" class="mode-button" onclick="modeChange('percent'); modeButton(this)">
         Percentage
     </button>
 </div>
@@ -89,10 +89,10 @@
 <svg id="chart1"></svg>
 
 <div class="control-group">
-    <button class="category-button" onclick="filterChange('continent'); highlightButton(this)">
+    <button id="continent" class="category-button" onclick="filterChange('continent'); highlightButton(this)">
         Continents
     </button>
-    <button class="category-button" onclick="filterChange('all'); highlightButton(this)">
+    <button id="all" class="category-button" onclick="filterChange('all'); highlightButton(this)">
         All Countries
     </button>
 </div>
@@ -116,7 +116,8 @@
 </div>
 
 <script>
-    var clickedBuffer=null;
+    var clickedBuffer=document.getElementById("continent");
+    clickedBuffer.className=' category-button-clicked ';
     function highlightButton(obj){
         if (clickedBuffer === null) {
             obj.className=' category-button-clicked ';
@@ -130,7 +131,8 @@
         return false; /* ONLY if you want the  button not to lead to another HTML doc*/
     }
 
-    var modeBuffer=null;
+    var modeBuffer=document.getElementById("millions");
+    modeBuffer.className=' mode-button-clicked '
     function modeButton(obj){
         if (modeBuffer === null) {
             obj.className=' mode-button-clicked ';
@@ -142,6 +144,11 @@
         }
         modeBuffer=obj;
         return false; /* ONLY if you want the  button not to lead to another HTML doc*/
+
+
+        document.getElementById(filter).className=' category-button-clicked ';
+        document.getElementById(mode).className=' mode-button-clicked ';
+
     }
 </script>
 
@@ -151,7 +158,7 @@
 
     // initialise
     var filter = "continent";
-    var mode = "percent";
+    var mode = "millions";
     filterData("generate");
 
     function modeChange(modeC){
