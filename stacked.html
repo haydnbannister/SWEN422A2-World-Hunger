@@ -58,28 +58,28 @@
 <svg id="chart1"></svg>
 
 <div class="control-group">
-    <button class="button" onclick="modeChange('continent'); filterChange('all'); highlightButton(this)">
+    <button class="button" onclick="filterChange('continent'); highlightButton(this)">
         Continents
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('all'); highlightButton(this)">
+    <button class="button" onclick="filterChange('all'); highlightButton(this)">
         All Countries
     </button>
 </div>
 
 <div class="control-group">
-    <button class="button" onclick="modeChange('country'); filterChange('AF'); highlightButton(this)">
+    <button class="button" onclick="filterChange('AF'); highlightButton(this)">
         African Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('EU'); highlightButton(this)">
+    <button class="button" onclick="filterChange('EU'); highlightButton(this)">
         European Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('SA'); highlightButton(this)">
+    <button class="button" onclick="filterChange('SA'); highlightButton(this)">
         South American Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('AS'); highlightButton(this)">
+    <button class="button" onclick="filterChange('AS'); highlightButton(this)">
         Asian Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('NA'); highlightButton(this)">
+    <button class="button" onclick="filterChange('NA'); highlightButton(this)">
         North American Countries
     </button>
 </div>
@@ -104,26 +104,16 @@
     var colors = d3.scale.category20();
     var chart;
 
-    var mode = "country"
-    var filter = "EU"
-
     // initialise
+    var filter = "continent"
     filterData("generate");
 
-
-
-
-
-    function modeChange(modeC) {
-        mode = modeC;
-
-        filterData("update");
-    }
 
     function filterChange(filterC) {
         filter = filterC;
         filterData("update");
     }
+
 
     function update(selectedData){
 
@@ -183,7 +173,7 @@
         var selectedData;
 
         d3.csv("/data/stacked-data.csv", function (data) {
-            if (mode == "continent") {
+            if (filter == "continent") {
                 var ByContinent = d3.nest()
                     .key(function (d) {
                         return d["Continent Name"];
@@ -241,7 +231,7 @@
                 selectedData = ByContinent;
             } // End of ifContinent
 
-            if (mode == "country") {
+            if (filter != "continent") {
                 if (filter != "all") {
                     data = data.filter(function (d) {
                         return d["Continent Code"] == filter;
