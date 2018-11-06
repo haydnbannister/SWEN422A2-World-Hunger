@@ -16,7 +16,7 @@
         html, body, svg {
             margin: 0px;
             padding: 0px;
-            height: 95%;
+            height: 90%;
             width: 100%;
         }
 
@@ -31,11 +31,11 @@
             display: inline-block;
             font-size: 20px;
             margin-top: 10px;
-
         }
 
         .control-group {
             margin-left: 60px;
+            margin-bottom: 10px;
         }
 
     </style>
@@ -46,28 +46,56 @@
 <svg id="chart1"></svg>
 
 <div class="control-group">
-    <button class="button" onclick="modeChange('continent')">
+    <button class="button" onclick="modeChange('continent'); filterChange('all')">
         Continents
     </button>
-    <button class="button" onclick="modeChange('country')">
-        Countries
+
+    <button class="button" onclick="modeChange('country'); filterChange('all')">
+        All Countries
+    </button>
+</div>
+
+<div class="control-group">
+    <button class="button" onclick="modeChange('country'); filterChange('AF')">
+        African Countries
+    </button>
+    <button class="button" onclick="modeChange('country'); filterChange('EU')">
+        European Countries
+    </button>
+    <button class="button" onclick="modeChange('country'); filterChange('SA')">
+        South American Countries
+    </button>
+    <button class="button" onclick="modeChange('country'); filterChange('AS')">
+        Asian Countries
+    </button>
+    <button class="button" onclick="modeChange('country'); filterChange('NA')">
+        North American Countries
     </button>
 </div>
 
 <script>
     generate();
 
-    var mode = "continent"
+    var mode = "country"
+    var filter = "all"
+
     function modeChange(modeC) {
         mode = modeC;
         generate();
     }
 
+    function filterChange(filterC) {
+        filter = filterC;
+        generate();
+    }
+
+    var chart;
+
     function generate() {
         d3.csv("/data/2000.csv", function (data) {
             var selectedData;
 
-            
+
             if (mode == "continent") {
                 var ByContinent = d3.nest()
                     .key(function (d) {
@@ -134,9 +162,16 @@
                 });
                 selectedData = ByContinent;
                 console.log(selectedData)
-            }
+
+            } // End of ifContinent
 
             if (mode == "country") {
+
+                if(filter != "all") {
+                    data = data.filter(function (d) {
+                        return d["Continent Code"] == filter;
+                    });
+                }
 
                 data.forEach(function (d) {
                     d.key = d.Country;
@@ -160,7 +195,8 @@
                     ]
                 });
                 selectedData = data;
-            }
+
+            } // End of ifCountry
 
             // COUNTRY WITH ACTUAL DATA
             // data.forEach(function(d) {
@@ -188,7 +224,8 @@
 
 
             var colors = d3.scale.category20();
-            var chart;
+
+
             nv.addGraph(function () {
                 chart = nv.models.stackedAreaChart()
                     .useInteractiveGuideline(true)
@@ -200,7 +237,6 @@
                     })
                     .controlLabels({stacked: "Stacked"})
                     .duration(300);
-                //chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
                 chart.yAxis.tickFormat(d3.format(',.1f'));
                 chart.legend.vers('furious');
                 d3.select('#chart1')
@@ -217,10 +253,12 @@
                     });
                 nv.utils.windowResize(chart.update);
                 return chart;
-            });
-        });
+            }); // End of addGraph
 
-    }
+        }); // End of data read section
+
+    } // End of Generate funtion
+
 </script>
 </body>
 </html>
