@@ -1,14 +1,55 @@
 <html>
-       <head>
-        <meta charset="utf-8">
+<head>
         <link href="/d3-geomap/css/d3.geomap.css" rel="stylesheet">
-        <script src="/d3-geomap/vendor/d3.geomap.dependencies.min.js"></script>
-        <script src="/d3-geomap/js/d3.geomap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.css">
+        <script src=" https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.js"></script>
+        <link href="UI.css" rel="stylesheet" id="UI-css">
+        
     </head>
+    <center id = jumbo>
+    <div class="jumbotron">
+      <div class="container">
+        <button type="button" onclick="location.href='graph_a.html';"  class="btn btn-default">Graph A</button>
+        <button type="button" onclick="location.href='graph_b.html';"  class="btn btn-default">Graph B</button>
+        <button type="button" onclick="location.href='graph_c.html';"  class="btn btn-primary">Graph C</button>
+      </div>
+    </div>
+    </center>
+
+
+<center id = optionbar>
+    <h2>Graph C</h2>
+</center>
+
+<center id = mainArea>
+     
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown">Countries&nbsp;<span class="caret"></span></button>
+                <ul class="dropdown-menu scrollable-menu" role="menu" id = "country_buttons">
+                </ul>
+            </div>
+             <div class="btn-group" >
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Continents&nbsp;<span class="caret"></span></button>
+                <ul class="dropdown-menu scrollable-menu" role="menu" id = "continent_buttons">
+                </ul>
+            </div>
+            Year: <span>&nbsp; &nbsp;</span> <input type="text" id="slider-input" class="slider" value="2015" align = "right"/>
+            <div class="btn-group" >&nbsp; &nbsp; 
+            </div>
+            
+            
+            
+</center>
+<script src="UI.js"></script>
     <body>
         <div id="map"></div>
     </body>
-    
+    <script src="/d3-geomap/vendor/d3.geomap.dependencies.min.js"></script>
+    <script src="/d3-geomap/js/d3.geomap.min.js"></script>
     <script>
     // write your d3 code here.. 
     
@@ -17,7 +58,7 @@
     // http://localhost:8000/World_Chloropleth.html
     
     //Who are we presenting the data
-    var year = '2000';
+    var year = $('#slider-input').val();
     var percent = true;
     
     //The formates
@@ -45,8 +86,12 @@
     //Loads the data
     function loadData(){
         d3.csv('Data/'+ year +'.csv', function(error, data) {
+            d3.selectAll("#temp").remove();
             var selection = d3.select('#map').datum(data);
+            console.log("drawing for year " + year);
+            
             worldmap.draw(selection);
+            worldmap.svg.attr("id", "temp");
         });
     }
     
@@ -54,6 +99,7 @@
     function setYear(newYear){
         this.year = newYear;
         //Refresh
+        console.log("Setting Year");
         loadData();
     }
     
