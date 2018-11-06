@@ -119,36 +119,21 @@
     var clickedBuffer=document.getElementById("continent");
     clickedBuffer.className=' category-button-clicked ';
     function highlightButton(obj){
-        if (clickedBuffer === null) {
-            obj.className=' category-button-clicked ';
-        }
-        else{
-            /* note the class name contains a black character  before and after the word !! */
             clickedBuffer.className = ' category-button ';
             obj.className= obj.className + ' category-button-clicked ';
-        }
+
         clickedBuffer=obj;
-        return false; /* ONLY if you want the  button not to lead to another HTML doc*/
+        return false;
     }
 
     var modeBuffer=document.getElementById("millions");
-    modeBuffer.className=' mode-button-clicked '
+    modeBuffer.className=' mode-button-clicked ';
     function modeButton(obj){
-        if (modeBuffer === null) {
-            obj.className=' mode-button-clicked ';
-        }
-        else{
-            /* note the class name contains a black character  before and after the word !! */
             modeBuffer.className = ' mode-button ';
             obj.className= obj.className + ' mode-button-clicked ';
-        }
+
         modeBuffer=obj;
-        return false; /* ONLY if you want the  button not to lead to another HTML doc*/
-
-
-        document.getElementById(filter).className=' category-button-clicked ';
-        document.getElementById(mode).className=' mode-button-clicked ';
-
+        return false;
     }
 </script>
 
@@ -175,12 +160,11 @@
         }
     }
 
-
+    // if we are just changing data
     function update(selectedData){
-
             d3.select('#chart1')
                 .datum(selectedData)
-                .transition().duration(1000)
+                .transition().duration(2000)
                 .call(chart)
                 .each('start', function () {
                     setTimeout(function () {
@@ -194,6 +178,7 @@
     }
 
 
+    // if we are generating chart for the first time
     function generate(selectedData) {
         nv.addGraph(function () {
             chart = nv.models.stackedAreaChart()
@@ -210,7 +195,7 @@
             chart.legend.vers('classic');
             d3.select('#chart1')
                 .datum(selectedData)
-                .transition().duration(1000)
+                .transition().duration(2000)
                 .call(chart)
                 .each('start', function () {
                     setTimeout(function () {
@@ -223,9 +208,8 @@
             nv.utils.windowResize(chart.update);
 
             return chart;
-        }); // End of addGraph
-    } // End of Generate funtion
-
+        });
+    }
 
 
 
@@ -293,7 +277,6 @@
                             sums[15] += +d.values[i].p2015;
                         }
                     }
-
                     d.sums = sums;
                 });
 
