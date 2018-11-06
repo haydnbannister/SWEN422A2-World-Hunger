@@ -32,6 +32,18 @@
             font-size: 20px;
             margin-top: 10px;
         }
+        .button-clicked {
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
 
         .control-group {
             margin-left: 60px;
@@ -46,31 +58,47 @@
 <svg id="chart1"></svg>
 
 <div class="control-group">
-    <button class="button" onclick="modeChange('continent'); filterChange('all')">
+    <button class="button" onclick="modeChange('continent'); filterChange('all'); highlightButton(this)">
         Continents
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('all')">
+    <button class="button" onclick="modeChange('country'); filterChange('all'); highlightButton(this)">
         All Countries
     </button>
 </div>
 
 <div class="control-group">
-    <button class="button" onclick="modeChange('country'); filterChange('AF')">
+    <button class="button" onclick="modeChange('country'); filterChange('AF'); highlightButton(this)">
         African Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('EU')">
+    <button class="button" onclick="modeChange('country'); filterChange('EU'); highlightButton(this)">
         European Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('SA')">
+    <button class="button" onclick="modeChange('country'); filterChange('SA'); highlightButton(this)">
         South American Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('AS')">
+    <button class="button" onclick="modeChange('country'); filterChange('AS'); highlightButton(this)">
         Asian Countries
     </button>
-    <button class="button" onclick="modeChange('country'); filterChange('NA')">
+    <button class="button" onclick="modeChange('country'); filterChange('NA'); highlightButton(this)">
         North American Countries
     </button>
 </div>
+
+<script>
+    var clickedBuffer=null;
+    function highlightButton(obj){
+        if (clickedBuffer === null) {
+            obj.className=' button-clicked ';
+        }
+        else{
+            /* note the class name contains a black character  before and after the word !! */
+            clickedBuffer.className = ' button ';
+            obj.className= obj.className + ' button-clicked ';
+        }
+        clickedBuffer=obj;
+        return false; /* ONLY if you want the  button not to lead to another HTML doc*/
+    }
+</script>
 
 <script>
     var colors = d3.scale.category20();
@@ -81,6 +109,8 @@
 
     // initialise
     filterData("generate");
+
+
 
 
 
