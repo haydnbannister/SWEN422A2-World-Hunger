@@ -79,6 +79,7 @@
     var mode = "country"
     var filter = "all"
 
+
     function modeChange(modeC) {
         mode = modeC;
         generate();
@@ -89,7 +90,6 @@
         generate();
     }
 
-    var chart;
 
     function generate() {
         d3.csv("/data/2000.csv", function (data) {
@@ -223,37 +223,38 @@
             //selectedData = data;
 
 
-            var colors = d3.scale.category20();
 
+                var colors = d3.scale.category20();
+                var chart;
+                nv.addGraph(function () {
+                    chart = nv.models.stackedAreaChart()
+                        .useInteractiveGuideline(true)
+                        .x(function (d) {
+                            return d[0]
+                        })
+                        .y(function (d) {
+                            return d[1]
+                        })
+                        .controlLabels({stacked: "Stacked"})
+                        .duration(300);
+                    chart.yAxis.tickFormat(d3.format(',.1f'));
+                    chart.legend.vers('furious');
+                    d3.select('#chart1')
+                        .datum(selectedData)
+                        .transition().duration(1000)
+                        .call(chart)
+                        .each('start', function () {
+                            setTimeout(function () {
+                                d3.selectAll('#chart1 *').each(function () {
+                                    if (this.__transition__)
+                                        this.__transition__.duration = 1;
+                                })
+                            }, 0)
+                        });
+                    nv.utils.windowResize(chart.update);
 
-            nv.addGraph(function () {
-                chart = nv.models.stackedAreaChart()
-                    .useInteractiveGuideline(true)
-                    .x(function (d) {
-                        return d[0]
-                    })
-                    .y(function (d) {
-                        return d[1]
-                    })
-                    .controlLabels({stacked: "Stacked"})
-                    .duration(300);
-                chart.yAxis.tickFormat(d3.format(',.1f'));
-                chart.legend.vers('furious');
-                d3.select('#chart1')
-                    .datum(selectedData)
-                    .transition().duration(1000)
-                    .call(chart)
-                    .each('start', function () {
-                        setTimeout(function () {
-                            d3.selectAll('#chart1 *').each(function () {
-                                if (this.__transition__)
-                                    this.__transition__.duration = 1;
-                            })
-                        }, 0)
-                    });
-                nv.utils.windowResize(chart.update);
-                return chart;
-            }); // End of addGraph
+                    return chart;
+                }); // End of addGraph
 
         }); // End of data read section
 
