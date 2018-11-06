@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src=" https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+<center id = mainArea>
+</center>
+</body>
+
+
+<script>
+    // python -m http.server 8000
+    // http:localhost:8000/Hunger_Bars.html
+    // By Elroy Dalefield
+    
+    //Need these consts
+    const WIDTH = 1000;
+    const HEIGHT = 700;
+    const LABEL_OFFSET = 15;
+    const Y_MIDPOINT = HEIGHT/2;
+    const X_MIDPOINT = WIDTH/2;
+    const GRAPH_WIDTH = 170 * 3;
+    const GRAPH_HEIGHT = 600;
+    const GRAPH_X_OFFSET = (WIDTH - GRAPH_WIDTH)/2; 
+    const GRAPH_Y_OFFSET = (HEIGHT - GRAPH_HEIGHT)/2; 
+    
+    
+    //Will need this
+    var percent = true;
+    var year = 2000;
+    var validTuples = [];
+    var historySettings = [];
+    var index = -1;
+    var allContinents = ["NA","SA","EU","AS","OC","AF"];
+    var validContinents = new Set(["NA","SA","EU","AS","OC","AF"]);
+    
+    //Year
+    d3.select("#mainArea").append("p").attr("id","yearArea");
+    for (i = 2000; i <= 2015; i++) {
+        d3.select("#yearArea").append("input").attr("type", "button").attr("value", "" + i).attr("onclick", "setYear("+ i +")"); 
+    }
+    //Continents
+    d3.select("#mainArea").append("p").attr("id","continentArea");
+    d3.select("#continentArea").append("input").attr("id","NA").attr("type", "button").attr("value", "North America: ON").attr("onclick", "continentToggle(NA)"); 
+    d3.select("#continentArea").append("input").attr("id","SA").attr("type", "button").attr("value", "South America: ON").attr("onclick", "continentToggle(SA)");
+    d3.select("#continentArea").append("input").attr("id","EU").attr("type", "button").attr("value", "Europe: ON").attr("onclick", "continentToggle(EU)");
+    d3.select("#continentArea").append("input").attr("id","AF").attr("type", "button").attr("value", "Africa: ON").attr("onclick", "continentToggle(AF)");
+    d3.select("#continentArea").append("input").attr("id","AS").attr("type", "button").attr("value", "Asia: ON").attr("onclick", "continentToggle(AS)");
+    d3.select("#continentArea").append("input").attr("id","OC").attr("type", "button").attr("value", "Oceania: ON").attr("onclick", "continentToggle(OC)");
+    //Buttons
+    d3.select("#mainArea").append("p").attr("id","buttonArea");
+    d3.select("#buttonArea").append("input").attr("id","dataToggleButton").attr("type", "button").attr("value", "Percents").attr("onclick", "dataToggle()"); 
+    d3.select("#buttonArea").append("input").attr("type", "button").attr("value", "GO").attr("onclick", "go()"); 
+    
+    //History
+    d3.select("#mainArea").append("p").attr("id","historyArea");
+    d3.select("#historyArea").append("input").attr("type", "button").attr("value", "Undo").attr("onclick", "undo()"); 
+    d3.select("#historyArea").append("input").attr("type", "button").attr("value", "Redo").attr("onclick", "redo()"); 
+    
+    
+    
+    //Make a svg with a chart
+    //var image = d3.select("#mainArea").append("svg").attr("id","image").attr("width",WIDTH).attr("height",HEIGHT);
+    //var xscale = d3.scaleLinear().domain([0,17]).range([0,GRAPH_WIDTH]);
+    //var yscale = d3.scaleLinear().domain([0,100]).range([GRAPH_HEIGHT,0]);
+    //var xaxis = d3.axisBottom().scale(xscale);
+    //var yaxis = d3.axisLeft().scale(yscale);
+    //image.append("g").attr("transform","translate(" + GRAPH_X_OFFSET + "," + GRAPH_Y_OFFSET + ")").call(yaxis);
+    //image.append("g").attr("transform","translate(" + GRAPH_X_OFFSET +"," + (GRAPH_HEIGHT + GRAPH_Y_OFFSET) + ")").call(xaxis);
+    //image.append("text").attr("transform","rotate(-90)").attr("y",GRAPH_X_OFFSET - LABEL_OFFSET * 2).attr("x",-1 * (GRAPH_HEIGHT/2 + GRAPH_Y_OFFSET)).text("Y Title");
+    //image.append("text").attr("transform","translate(" + (GRAPH_X_OFFSET + GRAPH_WIDTH/2) + "," + (GRAPH_Y_OFFSET + GRAPH_HEIGHT + LABEL_OFFSET*2) +")").text("X Title");
+    
+    //Used to set the year
+    function setYear(year){
+        this.year = year;
+    }
+    
+    function continentToggle(code){
+    
+        if(validContinents.has(code.id)){
+            validContinents.delete(code.id);
+        }else{
+            validContinents.add(code.id);
+        }
+        
+        correctLabels();
+    }
+    
+    
+    function correctLabels(){
+    
+        for(var i = 0; i< allContinents.length; i++){
+            var code = d3.select("#"+allContinents[i]);
+            if(validContinents.has(code.attr("id")) && code.attr("value").substring(code.attr("value").length- 5,code.attr("value").length) == ": OFF") {
+            
+                var baseName = code.attr("value").substring(0,code.attr("value").length- 5);
+                code.attr("value", baseName + ": ON").enter(); 
+                
+            }else if(!validContinents.has(code.attr("id")) && code.attr("value").substring(code.attr("value").length- 4,code.attr("value").length) == ": ON"){
+                
+                var baseName = code.attr("value").substring(0,code.attr("value").length- 4);
+                code.attr("value", baseName  + ": OFF").enter(); 
+            
+            }
+        }  
+    }
+    
+    
+    //Used to toggle between population or percent
+    function dataToggle(){
+        if(percent){
+            d3.select("#dataToggleButton").attr("value", "Numbers"); 
+        }else{
+            d3.select("#dataToggleButton").attr("value", "Percents"); 
+        }
+        
+        percent = !percent
+    }
+    
+    function go(){
+        index = historySettings.length;
+         d3.select("#mainArea").append("p").attr("id","temp").text("" + index).enter();
+        var record = new Array (year,new Set(validContinents));
+        historySettings.push(record);
+        findTuples();
+    };
+    
+    //Find the valid tuples
+    function findTuples(){
+        //Do some work with the data
+        d3.selectAll("#temp").remove();
+        validTuples = [];
+        
+        d3.csv("Data/" + year + ".csv", function(data) {
+            for (var i = 0; i < data.length; i++) {
+                var tuple = data[i];
+                if(validContinents.has(tuple["Continent Code"])){
+                    validTuples.push(tuple);
+                }
+            }
+            
+            for(var i = 0 ; i < validTuples.length;i++){
+                d3.select("#mainArea").append("p").attr("id","temp").text("" + validTuples[i].Country).enter();
+            }
+            
+            
+            
+        });
+        
+    }
+    
+    function undo(){
+        if(index <= 0){
+            return;
+        }
+        index = index -1;
+        
+        year = historySettings[index][0];
+        validContinents = new Set(historySettings[index][1]);
+        findTuples();
+        correctLabels();
+    };
+        
+    function redo(){
+        if(index == -1 || index == historySettings.length - 1){
+            return;
+        }
+        index = index + 1;
+        
+        year = historySettings[index][0];
+        validContinents = new Set(historySettings[index][1]);
+        findTuples();
+        correctLabels();
+    };
+    
+</script>
+
+</html>
