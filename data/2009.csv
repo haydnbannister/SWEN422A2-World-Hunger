@@ -1,4 +1,4 @@
-Country,Country Code,Continent Code,Percent,Millions,Continent Name
+Country,iso3,Continent Code,Percent,Millions,Continent Name
 Albania,ALB,EU,8.7,0.3,Europe
 Algeria,DZA,AF,7.0,2.5,Africa
 Angola,AGO,AF,21.3,4.4,Africa
