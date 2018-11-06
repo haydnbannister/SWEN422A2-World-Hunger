@@ -105,7 +105,8 @@
     var chart;
 
     // initialise
-    var filter = "continent"
+    var filter = "continent";
+    var mode = "percent";
     filterData("generate");
 
 
@@ -116,7 +117,6 @@
 
 
     function update(selectedData){
-
 
             d3.select('#chart1')
                 .datum(selectedData)
@@ -147,7 +147,7 @@
                 .controlLabels({stacked: "Stacked"})
                 .duration(300);
             chart.yAxis.tickFormat(d3.format(',.1f'));
-            chart.legend.vers('furious');
+            chart.legend.vers('classic');
             d3.select('#chart1')
                 .datum(selectedData)
                 .transition().duration(1000)
@@ -186,29 +186,54 @@
                     // Index equals year ([0] = 2000, [1] = 2001 etc)
                     var sums = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-                    for (var i = 0; i < d.values.length; i++) {
-                        sums[0] += +d.values[i].m2000;
-                        sums[1] += +d.values[i].m2001;
-                        sums[2] += +d.values[i].m2002;
-                        sums[3] += +d.values[i].m2003;
-                        sums[4] += +d.values[i].m2004;
-                        sums[5] += +d.values[i].m2005;
-                        sums[6] += +d.values[i].m2006;
-                        sums[7] += +d.values[i].m2007;
-                        sums[8] += +d.values[i].m2008;
-                        sums[9] += +d.values[i].m2009;
-                        sums[10] += +d.values[i].m2010;
-                        sums[11] += +d.values[i].m2011;
-                        sums[12] += +d.values[i].m2012;
-                        sums[13] += +d.values[i].m2013;
-                        sums[14] += +d.values[i].m2014;
-                        sums[15] += +d.values[i].m2015;
+                    if(mode == "millions") {
+
+                        for (var i = 0; i < d.values.length; i++) {
+                            sums[0] += +d.values[i].m2000;
+                            sums[1] += +d.values[i].m2001;
+                            sums[2] += +d.values[i].m2002;
+                            sums[3] += +d.values[i].m2003;
+                            sums[4] += +d.values[i].m2004;
+                            sums[5] += +d.values[i].m2005;
+                            sums[6] += +d.values[i].m2006;
+                            sums[7] += +d.values[i].m2007;
+                            sums[8] += +d.values[i].m2008;
+                            sums[9] += +d.values[i].m2009;
+                            sums[10] += +d.values[i].m2010;
+                            sums[11] += +d.values[i].m2011;
+                            sums[12] += +d.values[i].m2012;
+                            sums[13] += +d.values[i].m2013;
+                            sums[14] += +d.values[i].m2014;
+                            sums[15] += +d.values[i].m2015;
+                        }
+                    }else{
+                        for (var i = 0; i < d.values.length; i++) {
+                            sums[0] += +d.values[i].p2000;
+                            sums[1] += +d.values[i].p2001;
+                            sums[2] += +d.values[i].p2002;
+                            sums[3] += +d.values[i].p2003;
+                            sums[4] += +d.values[i].p2004;
+                            sums[5] += +d.values[i].p2005;
+                            sums[6] += +d.values[i].p2006;
+                            sums[7] += +d.values[i].p2007;
+                            sums[8] += +d.values[i].p2008;
+                            sums[9] += +d.values[i].p2009;
+                            sums[10] += +d.values[i].p2010;
+                            sums[11] += +d.values[i].p2011;
+                            sums[12] += +d.values[i].p2012;
+                            sums[13] += +d.values[i].p2013;
+                            sums[14] += +d.values[i].p2014;
+                            sums[15] += +d.values[i].p2015;
+                        }
                     }
+
                     d.sums = sums;
                 });
 
                 // Allocates the sums to the years in 2d array of values
                 ByContinent.forEach(function (d) {
+
+                    
                     d.values = [
                         [2000, d.sums[0]],
                         [2001, d.sums[1]],
