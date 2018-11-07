@@ -35,7 +35,7 @@ def getCountries(path):
     construct = countries.copy()
     missing = True
 
-    # For each country find its data within each file and append the percentage and millions values and append
+    # For each country find its data within each file and append the percentage and millions values
     # to that country's row.
     for country in countries:
         for i in range(0, data.__len__()):
