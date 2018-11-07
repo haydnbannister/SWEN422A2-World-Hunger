@@ -1,3 +1,4 @@
+
 <html>
 <head>
         <link href="/d3-geomap/css/d3.geomap.css" rel="stylesheet">
@@ -22,10 +23,16 @@
 
 
 <center id = optionbar>
-    <h2>Graph C</h2>
+    <h2>World Map of Hunger</h2>
 </center>
-
+            
 <center id = mainArea>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "undo()" >Undo</button>
+            </div>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "redo()" >Redo</button>
+            </div>
      
             <div class="btn-group" >
                 <button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown">Countries&nbsp;<span class="caret"></span></button>
@@ -37,13 +44,19 @@
                 <ul class="dropdown-menu scrollable-menu" role="menu" id = "continent_buttons">
                 </ul>
             </div>
-            Year: <span>&nbsp; &nbsp;</span> <input type="text" id="slider-input" class="slider" value="2015" align = "right"/>
+            Year: <span>&nbsp; &nbsp;</span> <input type="text" id="slider-input" class="slider" value="2000" align = "right"/>
             <div class="btn-group" >&nbsp; &nbsp; 
             </div>
-            
-            
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
+            </div>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "changeMode('pop')" >By Pop</button>
+            </div>
             
 </center>
+
+
 <script src="UI.js"></script>
     <body>
         <div id="map"></div>
@@ -69,14 +82,17 @@
 
     var millionsFormat = function(d) {
     d = d / 1;
-    return d3.format(',.02f')(d) + ' millions of straving people';
+    return d3.format(',.00f')(d) + ' million straving people';
     }
+    
+    var mode = get_current_mode();
     
     //Make the cholorpleth
     var worldmap = d3.geomap.choropleth()
     .geofile('/d3-geomap/topojson/world/countries.json')
     .colors(colorbrewer.YlOrRd[9])
     .column('Percent')
+    .domain([0,50])
     .format(percentFormat)
     .legend(true)
     .unitId('iso3');
@@ -85,11 +101,11 @@
     
     //Loads the data
     function loadData(){
-        d3.csv('Data/'+ year +'.csv', function(error, data) {
+        d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
             d3.selectAll("#temp").remove();
-            var selection = d3.select('#map').datum(data);
-            console.log("drawing for year " + year);
-            
+            var selection = d3.select('#map').datum(filterRows(data));
+            console.log("drawing for year " + $("#slider-input").val());
+            setFormat();
             worldmap.draw(selection);
             worldmap.svg.attr("id", "temp");
         });
@@ -108,14 +124,36 @@
         percent = !percent;
         
         if(percent){
-            worldmap.column('Percent').format(percentFormat);
+            worldmap.column('Percent').format(percentFormat).domain([0,50]);
         }else{
-            worldmap.column('Millions').format(millionsFormat);
+            worldmap.column('Millions').format(millionsFormat).domain([0,200]);
         }
         //Refresh
         loadData();
     }
     
+    function setFormat(){
+    
+        var mode = get_current_mode();
+        console.log(mode);
+        
+        
+        if(mode == "percent"){
+                worldmap.column('Percent').format(percentFormat).domain([0,50]);
+        }else if(mode == "pop"){
+                worldmap.column('Millions').format(millionsFormat).domain([0,200]);
+        }
+    }
+    
+    function update(){
+        var mode = get_current_mode();
+        console.log(mode);
+        if(mode == "percent"){
+                worldmap.column('Percent').update();
+        }else if(mode == "pop"){
+                worldmap.column('Millions').update();
+        }
+    }
     
     </script>
 </html>
