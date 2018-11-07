@@ -1,0 +1,98 @@
+Country,iso3,Continent Code,Percent,Millions,Continent Name
+Albania,ALB,EU,6.0,0.2,Europe
+Algeria,DZA,AF,5.0,1.9,Africa
+Angola,AGO,AF,16.7,3.8,Africa
+Argentina,ARG,SA,3.7,1.6,South America
+Armenia,ARM,AS,5.2,0.2,Asia
+Bangladesh,BGD,AS,16.8,26.1,Asia
+Benin,BEN,AF,11.3,1.1,Africa
+Bolivia (Plurinational State of),BOL,SA,23.1,2.4,South America
+Botswana,BWA,AF,25.1,0.5,Africa
+Bulgaria,BGR,EU,5.0,0.4,Europe
+Burkina Faso,BFA,AF,20.2,3.3,Africa
+Cambodia,KHM,AS,18.0,2.7,Asia
+Cameroon,CMR,AF,9.1,2.0,Africa
+Central African Republic,CAF,AF,40.9,1.9,Africa
+Chad,TCD,AF,37.6,4.8,Africa
+Chile,CHL,SA,3.9,0.7,South America
+China,CHN,AS,10.8,149.6,Asia
+Colombia,COL,SA,10.0,4.7,South America
+Congo,COD,AF,28.3,1.2,Africa
+Congo,COG,AF,28.3,1.2,Africa
+Costa Rica,CRI,NA,5.4,0.3,North America
+Ivory Coast,CIV,AF,15.6,3.3,Africa
+North Korea,PRK,AS,41.7,10.3,Asia
+Djibouti,DJI,AF,19.4,0.2,Africa
+Dominican Republic,DOM,NA,13.8,1.4,North America
+Ecuador,ECU,SA,11.5,1.8,South America
+Egypt,EGY,AF,4.4,3.8,Africa
+El Salvador,SLV,NA,12.8,0.8,North America
+Ethiopia,ETH,AF,30.2,27.9,Africa
+Gabon,GAB,AF,7.9,0.1,Africa
+Gambia,GMB,AF,9.3,0.2,Africa
+Georgia,GEO,AS,8.2,0.3,Asia
+Ghana,GHA,AF,6.1,1.5,Africa
+Guatemala,GTM,NA,16.2,2.5,North America
+Guinea,GIN,AF,17.1,2.0,Africa
+Guinea-Bissau,GNB,AF,23.4,0.4,Africa
+Haiti,HTI,NA,49.6,5.1,North America
+Honduras,HND,NA,15.6,1.2,North America
+India,IND,AS,15.4,195.1,Asia
+Indonesia,IDN,AS,8.6,21.3,Asia
+Iran,IRN,AS,5.6,4.3,Asia
+Iraq,IRQ,AS,25.9,8.5,Asia
+Jamaica,JAM,NA,9.2,0.3,North America
+Jordan,JOR,AS,3.7,0.3,Asia
+Kenya,KEN,AF,21.6,9.2,Africa
+Kyrgyzstan,KGZ,AS,7.3,0.4,Asia
+Laos,LAO,AS,18.3,1.2,Asia
+Lebanon,LBN,AS,4.8,0.2,Asia
+Lesotho,LSO,AF,13.6,0.3,Africa
+Liberia,LBR,AF,37.7,1.6,Africa
+Madagascar,MDG,AF,33.3,7.4,Africa
+Malawi,MWI,AF,21.1,3.3,Africa
+Malaysia,MYS,AS,3.3,1.0,Asia
+Mali,MLI,AF,6.5,1.0,Africa
+Mauritania,MRT,AF,7.2,0.3,Africa
+Mexico,MEX,NA,4.5,5.5,North America
+Mongolia,MNG,AS,18.8,0.5,Asia
+Morocco,MAR,AF,4.6,1.5,Africa
+Mozambique,MOZ,AF,27.8,7.1,Africa
+Myanmar,MMR,AS,14.7,7.7,Asia
+Namibia,NAM,AF,33.9,0.8,Africa
+Nepal,NPL,AS,8.8,2.4,Asia
+Nicaragua,NIC,NA,19.0,1.1,North America
+Niger,NER,AF,10.6,1.9,Africa
+Nigeria,NGA,AF,6.5,11.0,Africa
+Oman,OMN,AS,5.2,0.2,Asia
+Pakistan,PAK,AS,21.0,37.2,Asia
+Panama,PAN,NA,10.7,0.4,North America
+Paraguay,PRY,SA,12.0,0.8,South America
+Peru,PER,SA,9.0,2.7,South America
+Philippines,PHL,AS,14.3,13.7,Asia
+Moldova,MDA,EU,8.8,0.4,Europe
+Rwanda,RWA,AF,33.6,3.6,Africa
+Saudi Arabia,SAU,AS,5.6,1.6,Asia
+Senegal,SEN,AF,12.5,1.7,Africa
+Serbia,SRB,EU,6.0,0.5,Europe
+Sierra Leone,SLE,AF,24.5,1.5,Africa
+Slovakia,SVK,EU,4.0,0.2,Europe
+South Africa,ZAF,AF,3.6,1.9,Africa
+Sri Lanka,LKA,AS,24.5,5.0,Asia
+Sudan,SDN,AF,25.9,9.9,Africa
+Swaziland,SWZ,AF,22.4,0.3,Africa
+Tajikistan,TJK,AS,34.3,2.7,Asia
+Thailand,THA,AS,8.5,5.7,Asia
+East Timor,TLS,AS,28.2,0.3,Asia
+Togo,TGO,AF,18.1,1.2,Africa
+Tunisia,TUN,AF,4.5,0.5,Africa
+Turkmenistan,TKM,AS,5.3,0.3,Asia
+Uganda,UGA,AF,32.9,11.6,Africa
+United Arab Emirates,ARE,AS,5.1,0.5,Asia
+Tanzania,TZA,AF,32.5,15.8,Africa
+Uzbekistan,UZB,AS,7.2,2.1,Asia
+Venezuela,VEN,SA,4.7,1.4,South America
+Vietnam,VNM,AS,12.4,11.2,Asia
+Yemen,YEM,AS,24.6,6.1,Asia
+Zambia,ZMB,AF,48.1,7.1,Africa
+Zimbabwe,ZWE,AF,34.1,5.0,Africa
