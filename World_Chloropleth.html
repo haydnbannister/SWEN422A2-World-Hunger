@@ -102,10 +102,11 @@
     //Loads the data
     function loadData(){
         d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
-            d3.selectAll("#temp").remove();
+            
             var selection = d3.select('#map').datum(filterRows(data));
             console.log("drawing for year " + $("#slider-input").val());
             setFormat();
+            d3.selectAll("#temp").remove();
             worldmap.draw(selection);
             worldmap.svg.attr("id", "temp");
         });

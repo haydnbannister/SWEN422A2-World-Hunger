@@ -272,27 +272,5 @@
         
     }
         
-     //Find the valid tuples
-    function findTuples(){
-        //Do some work with the data
-        d3.selectAll("#temp").remove();
-        validTuples = [];
-        
-        
-        
-        d3.csv("Data/" + year + ".csv", function(data) {
-            for (var i = 0; i < data.length; i++) {
-                var tuple = data[i];
-                if(validContinents.has(tuple["Continent Code"])){
-                    validTuples.push(tuple);
-                }
-            }
-            
-            for(var i = 0 ; i < validTuples.length;i++){
-              d3.select("#mainArea").append("p").attr("id","temp").text("" + validTuples[i].Country).enter();
-            }
-            
-        });
-        
-    }
+
         
