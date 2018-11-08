@@ -95,22 +95,29 @@
     <button id="all" class="category-button" onclick="filterChange('all'); highlightButton(this)">
         All Countries
     </button>
+
+    <button class="" onclick="undo()">
+        Undo
+    </button>
+    <button class="" onclick="redo()">
+        Redo
+    </button>
 </div>
 
 <div class="control-group">
-    <button class="category-button" onclick="filterChange('AF'); highlightButton(this)">
+    <button id="AF" class="category-button" onclick="filterChange('AF'); highlightButton(this)">
         African Countries
     </button>
-    <button class="category-button" onclick="filterChange('EU'); highlightButton(this)">
+    <button id="EU" class="category-button" onclick="filterChange('EU'); highlightButton(this)">
         European Countries
     </button>
-    <button class="category-button" onclick="filterChange('SA'); highlightButton(this)">
+    <button id="SA" class="category-button" onclick="filterChange('SA'); highlightButton(this)">
         South American Countries
     </button>
-    <button class="category-button" onclick="filterChange('AS'); highlightButton(this)">
+    <button id="AS" class="category-button" onclick="filterChange('AS'); highlightButton(this)">
         Asian Countries
     </button>
-    <button class="category-button" onclick="filterChange('NA'); highlightButton(this)">
+    <button id="NA" class="category-button" onclick="filterChange('NA'); highlightButton(this)">
         North American Countries
     </button>
 </div>
@@ -146,8 +153,62 @@
     var mode = "millions";
     filterData("generate");
 
+
+    var backHistory = [];
+    var forwardHistory = [];
+
+    function undo(){
+
+        if(backHistory.length === 0){
+            return;
+        }
+
+        var action = backHistory.pop();
+
+        addToRedoStack(filter,mode);
+
+        filter = action [0];
+        mode = action [1];
+
+        highlightButton(document.getElementById(filter));
+        modeButton(document.getElementById(mode));
+
+        filterData("update");
+    }
+
+    function redo(){
+
+        if(forwardHistory.length === 0){
+            return;
+        }
+
+
+        var action = forwardHistory.pop();
+
+        addToUndoStack(filter,mode);
+
+        filter = action [0];
+        mode = action [1];
+
+        highlightButton(document.getElementById(filter));
+        modeButton(document.getElementById(mode));
+
+        filterData("update");
+    }
+
+    function addToRedoStack(filterH, modeH){
+        forwardHistory.push([filterH, modeH]);
+    }
+
+    function addToUndoStack(filterH, modeH){
+        backHistory.push([filterH, modeH]);
+    }
+
     function modeChange(modeC){
+
         if(mode != modeC) {
+            addToUndoStack(filter, mode);
+
             mode = modeC;
             filterData("update");
         }
@@ -155,10 +216,13 @@
 
     function filterChange(filterC) {
         if(filter != filterC) {
+            addToUndoStack(filter, mode);
+
             filter = filterC;
             filterData("update");
         }
     }
+
 
     // if we are just changing data
     function update(selectedData){
@@ -215,6 +279,9 @@
 
     function filterData(chooseNext) {
         var selectedData;
+
+        console.log("\nUndoable: " + backHistory);
+        console.log("\nRedoable: " + forwardHistory);
 
         // output our intentions for debugging
         console.log(chooseNext + " chart");
