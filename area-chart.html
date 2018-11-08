@@ -289,7 +289,7 @@
         console.log("Showing: " + mode);
         console.log("");
 
-        d3.csv("/Data/stacked-data.csv", function (data) {
+        d3.csv("/data/stacked-data.csv", function (data) {
 
             if (filter == "continent") {
                 var ByContinent = d3.nest()

@@ -24,6 +24,7 @@ def fix_file(filename, countries, continents):
     
     with open(filename, 'rb') as csvfile:
         scan = csv.reader(csvfile, delimiter=',')
+        scan.next()
         for row in scan:
             new_row = []
             new_row.append(row[0])
