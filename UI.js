@@ -8,7 +8,7 @@
   
  var historySettings = [];      
  var index = -1;
- var current_mode = "percent";
+ var current_mode = "pop";
             
             $(document).ready(function () {
                 make_slider('2000');
@@ -68,13 +68,13 @@
                     plot("Data/"+year + ".csv");
                     create_buttons("Data/"+year + ".csv");
                     make_record();
-                loadData();
-                }).on('change', function(ev){
-                    var year = parseInt(input_year);
-                    plot("Data/"+year + ".csv");
-                    create_buttons("Data/"+year + ".csv");
-                loadData();
-                });;
+                    loadData();
+                });//.on('change', function(ev){
+                    //var year = parseInt(input_year);
+                    //plot("Data/"+year + ".csv");
+                    //create_buttons("Data/"+year + ".csv");
+                //loadData();
+                //});;
         
         
     }
@@ -249,9 +249,7 @@
         index = index + 1;
         console.log("Length of history " + historySettings.length);
         
-        
-        
-        
+
         console.log(historySettings[2]);
         
         
