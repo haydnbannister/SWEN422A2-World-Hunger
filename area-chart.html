@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <link href="nv.d3.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
     <script src="nv.d3.js"></script>
 
     <style>
@@ -72,6 +74,8 @@
         .control-group {
             margin-left: 60px;
             margin-bottom: 10px;
+            white-space: nowrap;
+            overflow-x: auto;
         }
 
     </style>
@@ -94,6 +98,10 @@
     <button id="percent" class="mode-button" onclick="modeChange('percent'); modeButton(this)">
         Percentage
     </button>
+
+
+        <h2 style="display: inline-block; margin-left: 25%;">World Hunger Over Time</h2>
+
 </div>
 
 <svg id="chart1"></svg>
@@ -106,10 +114,10 @@
         All Countries
     </button>
 
-    <button class="" onclick="undo()">
+    <button type="button" class="btn btn-secondary" onclick="undo()">
         Undo
     </button>
-    <button class="" onclick="redo()">
+    <button type="button" class="btn btn-secondary" onclick="redo()">
         Redo
     </button>
 </div>
@@ -334,6 +342,7 @@
                             sums[14] += +d.values[i].m2014;
                             sums[15] += +d.values[i].m2015;
                         }
+                        d.sums = sums;
                     }else{ // percentage
                         for (var i = 0; i < d.values.length; i++) {
                             sums[0] += +d.values[i].p2000;
@@ -353,8 +362,8 @@
                             sums[14] += +d.values[i].p2014;
                             sums[15] += +d.values[i].p2015;
                         }
+                        d.sums = sums.map(function(x) { return x/d.values.length; });
                     }
-                    d.sums = sums;
                 });
 
                 // Allocates the sums to the years in 2d array of values
