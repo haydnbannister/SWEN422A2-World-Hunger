@@ -127,7 +127,7 @@
         if(percent){
             worldmap.column('Percent').format(percentFormat).domain([0,50]);
         }else{
-            worldmap.column('Millions').format(millionsFormat).domain([0,200]);
+            worldmap.column('Millions').format(millionsFormat).domain([0,100]);
         }
         //Refresh
         loadData();
@@ -142,7 +142,7 @@
         if(mode == "percent"){
                 worldmap.column('Percent').format(percentFormat).domain([0,50]);
         }else if(mode == "pop"){
-                worldmap.column('Millions').format(millionsFormat).domain([0,200]);
+                worldmap.column('Millions').format(millionsFormat).domain([0,100]);
         }
     }
     
