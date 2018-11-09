@@ -305,8 +305,12 @@ function loadData(){
     function create_axes(width, height, posx, posy, xvals, rangey, hungry){
     
             titley = "";
-            
-            
+            var mode = get_current_mode();
+            if(mode == "pop"){
+                titley = "Undernourished (Millions)";
+            }else{
+                titley = "Undernourished (% Population)";
+            }
 
             //+height*Math.abs(minval)/rangey+
             var xscale = d3.scaleBand().range([0,width]).domain(xvals);
@@ -334,9 +338,11 @@ function loadData(){
                 .attr("transform", " translate(-5, "+height*(hungry/rangey)+") rotate(-90)").attr("font-family", "sans-serif").attr("fill", "white");
             }
                 image.append("g").attr("id","yaxis").attr("transform","translate("+ posx +","+ posy +")").call(yaxis);
+                d3.select("#titley").remove();
                 var t = image.append("text").text(titley);  
                 var w = t.node().getBBox().width;
                 t.attr("transform", "rotate(-90)")
+                    .attr("id", "titley")
                     .attr("y", posx-40)
                     .attr("x", -(posy+height/2 + w/2))
                     .attr("dy", "1em").attr("font-family", "sans-serif")

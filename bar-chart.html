@@ -17,6 +17,7 @@
       <div class="container">
         <button type="button" onclick="location.href='area-chart.html';"  class="btn btn-default">Area Chart</button>
         <button type="button" onclick="location.href='World_Chloropleth.html';"  class="btn btn-default">World Chloropleth</button>
+        <button type="button" onclick="location.href='ice-berg.html';"  class="btn btn-default">Population Chart</button>
         <button type="button" class="btn btn-primary">Bar Chart</button>
       </div>
     </div>
@@ -77,7 +78,6 @@ loadData();
 
 //Load the data from a csv file!
 function loadData(){
-    console.log("Data!");
     var mode = get_current_mode();
     d3.selectAll("#temp").remove();
     //Graph size
@@ -111,12 +111,12 @@ function loadData(){
             var ids = []
             for(var i = 0; i < lines.length; i++){
                 
-                console.log(lines[i].Percent + " " + lines[i].Country);
+                //console.log(lines[i].Percent + " " + lines[i].Country);
                 
                 countries.push(lines[i].Country);
                 ids.push("ID"+lines[i].Code);
                 ids.push("HUNID"+lines[i].Code);
-                //console.log(lines[i].Country);
+                ////console.log(lines[i].Country);
             
             }
             //Create the svg plus the axis
@@ -203,12 +203,12 @@ function loadData(){
     
     //Crea the axis
     function create_axes(width, height, posx, posy, xvals, rangey, hungry,mode){
-    
+            
             //Which setting are we using?
             if(mode == "pop"){
-                titley = "Hungry Millions";
+                titley = "Undernourished (Millions)";
             }else{
-                titley = "Percent of Population";
+                titley = "Undernourished (% Population)";
             }
             
             //Need these scales
