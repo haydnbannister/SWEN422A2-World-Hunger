@@ -173,6 +173,7 @@ function loadData(){
                         .attr("width", barwidth)
                         .attr("height", barSize)
                         .on("mouseover",function(){
+			printCountry(this.x.baseVal.value, this.y.baseVal.value, this.id, image);
                         }).on("mouseout",function(d,i){
                             d3.selectAll("#venueOut").remove();
                         }).style("fill", "Red");
@@ -258,16 +259,31 @@ function loadData(){
         
     }
     //Print country
-    function printCountry(x, y, line, image){
-        var rect = image.append("rect")
-        var shift = -1;
-        var w1 = drawText(x,y + (shift-- * 20), line.Country, image);
-        var w2 = drawText(x,y + (shift-- * 20), line.Population, image);
-        rect.attr("x", (x-10))
-        rect.attr("y", y-57)
-        rect.attr("height", 45);
-        rect.attr("id","venueOut")
-        rect.attr("width", Math.max(w1, w2)+10).style("fill", "white");
+	 function printCountry(x, y, id, image){
+	d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
+            
+             for(var i = 0; i < data.length; i++){
+                    
+                 if(id == ("ID"+data[i]["iso3"]) || id == ("HUNID"+data[i]["iso3"])){
+		    var line = data[i];
+        	    var rect = image.append("rect")
+       		    var shift = -1;
+        	    var w2 = drawText(x,y + (shift-- * 20), "Undernourished People: "+ line.Millions + "M", image);
+		    var w3 = drawText(x,y + (shift-- * 20), "Undernourished Percent: "+ line.Percent + "%", image);
+        	    var w1 = drawText(x,y + (shift-- * 20), line.Country, image);
+       	     	    rect.attr("x", (x-10))
+        	    rect.attr("y", y-75)
+        	    rect.attr("height", 60);
+        	    rect.attr("id","venueOut")
+       	  	    rect.attr("width", Math.max(w2, w3)+10).style("fill", "white");
+    
+                 }
+                 
+             }
+             
+
+        });
+	
     }
     
             //Draw Text
