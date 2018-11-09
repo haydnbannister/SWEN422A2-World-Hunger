@@ -4,7 +4,7 @@
     // python -m SimpleHTTPServer 8000
     // http://localhost:8000/rivalries.html            
     
-    
+    //comment
   
  var historySettings = [];      
  var index = -1;
