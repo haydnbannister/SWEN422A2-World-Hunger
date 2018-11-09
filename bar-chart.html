@@ -1,0 +1,275 @@
+ 
+
+<html>
+<head>
+        <link href="/d3-geomap/css/d3.geomap.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.css">
+        <script src=" https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.js"></script>
+        <link href="UI.css" rel="stylesheet" id="UI-css">
+        
+    </head>
+    <center id = jumbo>
+    <div class="jumbotron">
+      <div class="container">
+        <button type="button" onclick="location.href='area-chart.html';"  class="btn btn-default">Area Chart</button>
+        <button type="button" onclick="location.href='World_Chloropleth.html';"  class="btn btn-default">World Chloropleth</button>
+        <button type="button" class="btn btn-primary">Bar Chart</button>
+      </div>
+    </div>
+    </center>
+
+
+<center id = optionbar>
+    <h2>Hungry Populations of the Globe</h2>
+</center>
+            
+<center id = mainArea>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "undo()" >Undo</button>
+            </div>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "redo()" >Redo</button>
+            </div>
+     
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown">Countries&nbsp;<span class="caret"></span></button>
+                <ul class="dropdown-menu scrollable-menu" role="menu" id = "country_buttons">
+                </ul>
+            </div>
+             <div class="btn-group" >
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Continents&nbsp;<span class="caret"></span></button>
+                <ul class="dropdown-menu scrollable-menu" role="menu" id = "continent_buttons">
+                </ul>
+            </div>
+            Year: <span>&nbsp; &nbsp;</span> <input type="text" id="slider-input" class="slider" value="2000" align = "right"/>
+            <div class="btn-group" >&nbsp; &nbsp; 
+            </div>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
+            </div>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default" onclick = "changeMode('pop')" >By Pop</button>
+            </div>
+            
+</center>
+<center id = svgArea></center>
+
+<script src="UI.js"></script>
+
+<script> 
+
+    //SVG size
+    const  WIDTHB = 1100;
+    const HEIGHTB = 700;
+
+loadData();
+
+//Load the data from a csv file!
+function loadData(){
+    console.log("Data!");
+    var mode = get_current_mode();
+    d3.selectAll("#temp").remove();
+    //Graph size
+    var width = 1000;
+    var height = 500;
+    var posx = 75;
+    var posy = 5;
+    var rangey = 120;
+    
+        //load thr data
+        d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
+            var data = filterRows(data);
+        
+            lines = [];
+            
+            for(var i = 0; i < data.length; i++){
+                var pop = parseFloat(data[i].Millions)/(parseFloat(data[i].Percent)/100);
+                var datum = {Country: data[i].Country, Population: pop, Hungry_pop: parseFloat(data[i].Millions), Code: data[i].iso3, Percent: parseFloat(data[i].Percent)};
+                lines.push(datum);
+            }
+            //Which setting are we using?
+            if(mode == "pop"){
+                lines = sortCountries(lines, "Hungry_pop");
+                
+                var range = 250;
+            }else{
+                lines = sortCountries(lines, "Percent");
+                var range = 100;
+            }
+            var countries = [];
+            var ids = []
+            for(var i = 0; i < lines.length; i++){
+                
+                console.log(lines[i].Percent + " " + lines[i].Country);
+                
+                countries.push(lines[i].Country);
+                ids.push("ID"+lines[i].Code);
+                ids.push("HUNID"+lines[i].Code);
+                //console.log(lines[i].Country);
+            
+            }
+            //Create the svg plus the axis
+            var image = create_axes(width, height, posx, posy, countries, range, 0,mode);
+          
+            //Sam wrote this... No idea what it is for...
+            var children = image._groups[0][0].children;
+            var keys = Object.keys(children);
+            for(var j = 0; j < 10; j++){//must be done repeatedly because removal is unreliable
+                for(var i = 0; i < keys.length; i++){
+                    if(children[keys[i]] != null && (typeof(children[keys[i]]) != undefined)){
+                        var id = children[i].id
+                        if(id.startsWith("ID") && !ids.includes(id)){
+                            d3.select("#"+id).remove();
+                        }else if(id.startsWith("HUNID") && !ids.includes(id)){
+                            d3.select("#"+id).remove();
+                        }
+                    }
+                }
+            }
+            
+            
+            //loop for bars
+            for(var i = 0; i < lines.length; i++){
+                
+                var barwidth = width/lines.length;
+                
+                  if(mode == "pop"){
+                    var hungry_pop = lines[i].Hungry_pop;
+                }
+                if(mode == "percent"){
+                  var hungry_pop = lines[i].Percent;
+                }
+   
+                var barSize = height*(hungry_pop/range);
+                var y = posy + height - barSize;
+                //Draw the bars
+                var bar = d3.select("#ID"+lines[i].Code);
+                    if(bar._groups[0][0] != null){
+                        bar.transition()
+                        .duration(1000)
+                        .attr("height", barSize) 
+                        .attr("x", posx + barwidth*i + 1) 
+                        .attr("width", barwidth)
+                        .attr("y", y)
+                        .style("fill", "Red");
+                    }else{
+                        image.append("rect")
+                        .attr("id", "ID"+lines[i].Code)
+                        .attr("x", posx + barwidth*i + 1)
+                        .attr("y", y)
+                        .attr("width", barwidth)
+                        .attr("height", barSize)
+                        .on("mouseover",function(){
+                        }).on("mouseout",function(d,i){
+                            d3.selectAll("#venueOut").remove();
+                        }).style("fill", "Red");
+                    }file:///home/dalefielro/Downloads/UI.js
+            
+                
+            }
+                   
+        });
+}
+    //Sort the countries
+    function sortCountries(data, c){
+        
+        newdata = [];
+        for(var j = 0; j < data.length; j++){
+            var max = 0;
+            var maxvalue = 0;
+            var chosen = false;
+            for(var i = 0; i < data.length; i++){
+                if(data[i][c] > maxvalue && !newdata.includes(data[i])){
+                    max = i;
+                    maxvalue = data[i][c];
+                }
+            }
+            newdata.push(data[max]);
+        }
+        
+        return newdata;
+    }
+    
+    //Crea the axis
+    function create_axes(width, height, posx, posy, xvals, rangey, hungry,mode){
+    
+            //Which setting are we using?
+            if(mode == "pop"){
+                titley = "Hungry Millions";
+            }else{
+                titley = "Percent of Population";
+            }
+            
+            //Need these scales
+            var xscale = d3.scaleBand().range([0,width]).domain(xvals);
+            var yscale = d3.scaleLinear().domain([0, rangey]).range([height,0]);
+            var xaxis = d3.axisBottom().scale(xscale)
+            var yaxis = d3.axisLeft().scale(yscale);
+            
+            var image = d3.select("#image")
+            if(image._groups[0][0] == null){
+                //Create the svg
+                var image = d3.select("#svgArea").append("svg").attr("id","image").attr("width", WIDTHB).attr("height",HEIGHTB);
+                image.append("g").attr("id","xaxis").attr("transform","translate("+ posx +","+ (posy+height) +")").call(xaxis).selectAll("text")	
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", " translate(-5,"+height*(hungry/rangey)+") rotate(-90)").attr("font-family", "sans-serif").attr("fill", "white");
+                
+                
+                
+            }else{
+                //Edit the svg
+                d3.select("#yaxis").remove();
+                d3.select("#xaxis").transition().duration(1000).call(xaxis).selectAll("text")	
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", " translate(-5, "+height*(hungry/rangey)+") rotate(-90)").attr("font-family", "sans-serif").attr("fill", "white");
+            }
+                //Edit y axis
+                image.append("g").attr("id","yaxis").attr("transform","translate("+ posx +","+ posy +")").call(yaxis);
+                d3.select("#titley").remove();
+                var t = image.append("text").text(titley);  
+                var w = t.node().getBBox().width;
+                t.attr("transform", "rotate(-90)")
+                    .attr("id","titley")
+                    .attr("y", posx-40)
+                    .attr("x", -(posy+height/2 + w/2))
+                    .attr("dy", "1em").attr("font-family", "sans-serif")
+                    .attr("fill", "white")
+    
+                    
+            return image;
+        
+        
+    }
+    //Print country
+    function printCountry(x, y, line, image){
+        var rect = image.append("rect")
+        var shift = -1;
+        var w1 = drawText(x,y + (shift-- * 20), line.Country, image);
+        var w2 = drawText(x,y + (shift-- * 20), line.Population, image);
+        rect.attr("x", (x-10))
+        rect.attr("y", y-57)
+        rect.attr("height", 45);
+        rect.attr("id","venueOut")
+        rect.attr("width", Math.max(w1, w2)+10).style("fill", "white");
+    }
+    
+            //Draw Text
+        function drawText(x,y,text, image){
+            var t = image.append("text").attr("id","venueOut").text(text).attr("font-family", "sans-serif");
+            var width = t.node().getBBox().width;
+            t.attr("transform","translate(" + (-width/2) + ", 0)");
+            t.attr("transform","translate(" + (x-5) + "," + y +")");
+            return width;
+        }
+
+</script>
+
+</html>
