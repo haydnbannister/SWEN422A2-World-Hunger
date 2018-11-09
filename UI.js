@@ -10,6 +10,10 @@
  var index = -1;
  var current_mode = "pop";
             
+ 
+ var ui_selection = [];
+ 
+ 
             $(document).ready(function () {
                 make_slider('2000');
             });
@@ -51,6 +55,8 @@
             return validTuples;
     
         } 
+    
+
     
 
     
@@ -334,7 +340,6 @@
                 r += '\n';
                 
             }
-            console.log(r);
 
             link = document.createElement('a');
             link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(r));
@@ -346,6 +351,40 @@
         });
     }
 
+    function make_selection(id){
+        
+        
+         d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
+            
+             for(var i = 0; i < data.length; i++){
+                    
+                 if(id == ("ID"+data[i]["iso3"]) || id == ("HUNID"+data[i]["iso3"])){
+                  
+                    console.log("Selecting " + data[i].Country);
+                    
+                    new_select = {Country: data[i].Country, id: data[i]["iso3"]}
+                    ui_selection.push(new_select);
+                    
+                     
+                 }
+                 
+             }
+             
+
+        });
+         
+         
+    }
     
+    
+    function is_selected(id){
+        
+        for(var i = 0; i < ui_selection.length; i++){
+            
+                
+            
+        }
+        
+    }
 
         

@@ -18,14 +18,15 @@
       <div class="container">
         <button type="button" onclick="location.href='area-chart.html';"  class="btn btn-default">Area Chart</button>
         <button type="button" onclick="location.href='World_Chloropleth.html';"  class="btn btn-default">World Chloropleth</button>
-        <button type="button" class="btn btn-primary">Bar Chart</button>
+        <button type="button" class="btn btn-primary">Population Chart</button>
+        <button type="button" onclick="location.href='bar-chart.html';"  class="btn btn-default">Bar Chart</button>
       </div>
     </div>
     </center>
 
 
 <center id = optionbar>
-    <h2>Hungry Populations of the Globe</h2>
+    <h2>Hunger Status of Global Populations</h2>
 </center>
 <center id = mainArea>
             <div class="btn-group" >
@@ -74,7 +75,7 @@ loadData();
     
 function loadData(){
     var w = window.innerWidth;
-    console.log("Data!");
+    //console.log("Data!");
     var mode = get_current_mode();
     d3.selectAll("#temp").remove();
     var width = 1000
@@ -109,7 +110,7 @@ function loadData(){
             var ids = []
             for(var i = 0; i < lines.length; i++){
                 
-                console.log(lines[i].Percent + " " + lines[i].Country);
+                //console.log(lines[i].Percent + " " + lines[i].Country);
                 
                 countries.push(lines[i].Country);
                 ids.push("ID"+lines[i].Code);
@@ -166,7 +167,11 @@ function loadData(){
                         .attr("x", posx + barwidth*i + 1) 
                         .attr("width", barwidth)
                         .attr("y", y)
-                        .style("fill", "FFEFCF");
+                        .style("fill", "FFEFCF")
+                        //.on("click",function(d,i){
+                           // make_selection(this.id);
+                        //})
+                        ;
                     }else{
                         image.append("rect")
                         .attr("id", "ID"+lines[i].Code)
@@ -176,9 +181,15 @@ function loadData(){
                         .attr("height", barSize)
                         .on("mouseover",function(){
                             //printCountry(this.x.baseVal.value, this.y.baseVal.value, lines[i], image);
-                        }).on("mouseout",function(d,i){
+                        })
+                        .on("mouseout",function(d,i){
                             d3.selectAll("#venueOut").remove();
-                        }).style("fill", "FFEFCF");
+                        })
+                        .style("fill", "FFEFCF")
+                        //.on("click",function(d,i){
+                            //make_selection(this.id);
+                        //})
+                        ;
                     }
             
                 
@@ -209,7 +220,11 @@ function loadData(){
                         .attr("x", posx + barwidth*i + 1) 
                         .attr("width", barwidth)
                         .attr("y", y)
-                        .style("fill", "RED");
+                        .style("fill", "RED")
+                        //.on("click",function(d,i){
+                            //make_selection(this.id);
+                        //})
+                        ;
                     }else{
                         image.append("rect")
                         .attr("id", "HUNID"+lines[i].Code)
@@ -221,7 +236,11 @@ function loadData(){
                             //printCountry(this.x.baseVal.value, this.y.baseVal.value, lines[i], image);
                         }).on("mouseout",function(d,i){
                             d3.selectAll("#venueOut").remove();
-                        }).style("fill", "RED");
+                        }).style("fill", "RED")
+                        //.on("click",function(d,i){
+                            //make_selection(this.id);
+                        //})
+                        ;
                     }
             
                 
@@ -235,10 +254,10 @@ function loadData(){
             
                    
         });
-}
+    }
 
 
-
+    
     function axis_range(data){
         
         max_hungry = 0;
@@ -356,7 +375,7 @@ function loadData(){
 
 <center>
 <div>
-    This plot expresses both the total population of a country that is undernourished, and the proportion. The total population of a country is represented by a bar, the area of the bar which is below the x axis are the people who are is undernourished. 
+    This plot expresses both the total population of a country that is undernourished, and the proportion. The total population of a country is represented by a bar, the area of the bar which is below the x axis are the people who are undernourished. 
 </div>
 </center>
 </html>
