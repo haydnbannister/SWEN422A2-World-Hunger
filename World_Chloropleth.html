@@ -1,6 +1,7 @@
 
 <html>
 <head>
+        <title>World Chloropleth</title>
         <link href="/d3-geomap/css/d3.geomap.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.css">
@@ -16,7 +17,7 @@
       <div class="container">
         <button type="button" onclick="location.href='area-chart.html';"  class="btn btn-default">Area Chart</button>
         <button type="button" class="btn btn-primary">World Chloropleth</button>
-        <button type="button" onclick="location.href='bar-chart.html';"  class="btn btn-default">Bar Chart</button>
+        <button type="button" onclick="location.href='ice-berg.html';"  class="btn btn-default">Bar Chart</button>
       </div>
     </div>
     </center>
@@ -48,13 +49,16 @@
             <div class="btn-group" >&nbsp; &nbsp; 
             </div>
             <div class="btn-group" >
-                <button type="button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
+                <button type="button" id = "percent_button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
             </div>
             <div class="btn-group" >
-                <button type="button" class="btn btn-default" onclick = "changeMode('pop')" >By Pop</button>
+                <button type="button" id = "pop_button" class="btn btn-primary" onclick = "changeMode('pop')" >By Pop</button>
+            </div>
+            <div class="btn-group" >
+                <button id = "download" type="button" class="btn btn-default" onclick = "download()" >Download</button>
             </div>
             
-</center>
+
 
 
 <script src="UI.js"></script>
@@ -104,7 +108,7 @@
         d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
             
             var selection = d3.select('#map').datum(filterRows(data));
-            console.log("drawing for year " + $("#slider-input").val());
+            //console.log("drawing for year " + $("#slider-input").val());
             setFormat();
             d3.selectAll("#temp").remove();
             worldmap.draw(selection);
@@ -116,7 +120,6 @@
     function setYear(newYear){
         this.year = newYear;
         //Refresh
-        console.log("Setting Year");
         loadData();
     }
     
@@ -136,7 +139,7 @@
     function setFormat(){
     
         var mode = get_current_mode();
-        console.log(mode);
+        //console.log(mode);
         
         
         if(mode == "percent"){
@@ -146,15 +149,8 @@
         }
     }
     
-    function update(){
-        var mode = get_current_mode();
-        console.log(mode);
-        if(mode == "percent"){
-                worldmap.column('Percent').update();
-        }else if(mode == "pop"){
-                worldmap.column('Millions').update();
-        }
-    }
     
     </script>
+    
+    </center>
 </html>

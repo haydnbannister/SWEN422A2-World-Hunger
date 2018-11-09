@@ -17,12 +17,12 @@
         
         
         function plot(filename){
-        d3.csv(filename, function(data) {
+            d3.csv(filename, function(data) {
             
-            filterRows(data)
-              
+                return filterRows(data)
+                
             
-        });
+            });
         }
         
         var year = $('#slider-input').val();      
@@ -48,16 +48,14 @@
                 
             }
             
-            
             return validTuples;
-            
     
         } 
     
 
     
     function make_slider(input_year){
-        console.log("making slider: "+ input_year);
+       // console.log("making slider: "+ input_year);
         var mySlider = $("#slider-input").slider({
                     min:2000,
                     max: 2015,
@@ -89,7 +87,7 @@
             var conts = []
             
             if(index >= 0){
-                console.log("loading current settings");
+                //console.log("loading current settings");
                 states = historySettings[index][1];
                 conts = historySettings[index][2];
             }
@@ -153,7 +151,7 @@
     
     function checkbox_event(){
         
-        console.log("Checkbox Event");
+       // console.log("Checkbox Event");
         make_record();
         plot("Data/"+$('#slider-input').val()+ ".csv");
         redraw_buttons();
@@ -193,12 +191,12 @@
     
     function redraw_buttons(){
         record = historySettings[index];
-        console.log("Year is: " + record[0]);
+        //console.log("Year is: " + record[0]);
         create_buttons("Data/"+ record[0] + ".csv");   
         //document.getElementById("slider-input").value = record[0];
         //slider = document.getElementById("slider-input").slider('value',50);
         //console.log("output " + slider.value);
-        console.log(record[0] + " is what it is set to " );
+       // console.log(record[0] + " is what it is set to " );
         $("#slider-input").slider("setValue", record[0]);
         //var slider = document.getElementById("slider-input");
         //var keys = Object.keys(slider);
@@ -210,7 +208,7 @@
     function undo(){
         if(index > 0){
             index = index - 1;
-            console.log("undoing");
+            //console.log("undoing");
             redraw_buttons();
         }
         
@@ -219,7 +217,7 @@
     function redo(){
         if(index < historySettings.length - 1){
             index = index + 1;
-            console.log("redoing");
+            //console.log("redoing");
             redraw_buttons();
         }
        
@@ -233,7 +231,7 @@
         var conts = get_selected_conts();
         
         if(index == -1){
-            console.log("Setting Conts");
+           // console.log("Setting Conts");
             conts = ["North America", "Europe", "Africa", "South America", "Asia"];   
         }
         
@@ -247,19 +245,43 @@
         
         historySettings.push(record);
         index = index + 1;
-        console.log("Length of history " + historySettings.length);
+        //console.log("Length of history " + historySettings.length);
         
 
-        console.log(historySettings[2]);
+       // console.log(historySettings[2]);
         
         
     }
     
     function changeMode(label){
      
-        current_mode = label;
-        make_record();
-        redraw_buttons();
+        mode = get_current_mode();
+        
+        if(label != mode){
+            current_mode = label;
+            
+            if(label == "percent"){
+                
+                var button = document.getElementById("percent_button");
+                button.setAttribute("class","btn btn-primary");
+                
+                button = document.getElementById("pop_button");
+                button.setAttribute("class","btn btn-default");
+                
+            }else{
+                
+                var button = document.getElementById("percent_button");
+                button.setAttribute("class","btn btn-default");
+                
+                button = document.getElementById("pop_button");
+                button.setAttribute("class","btn btn-primary");
+                
+            }
+            
+            
+            make_record();
+            redraw_buttons();
+        }
         
     }
     
@@ -270,5 +292,60 @@
         
     }
         
+    function download(){
+        d3.csv('Data/'+ $("#slider-input").val() +'.csv', function(error, data) {
+            
+            var filename = "data.csv";
+            
+            var data = filterRows(data);
+            r = ""; 
+            r += "Country Name,";
+            
+            if(get_current_mode() == "percent"){
+                    r += "Hunger (%),";
+                }else{
+                    r += "Hunger (Millions of People),";
+                }
+            r += "Continent Name";
+            r += '\n';
+            
+            for(var i = 0; i < data.length; i++){
+                var row = Object.keys(data[i]);
+                //console.log(row);
+                
+                 
+                r += data[i].Country;
+                r += ",";
+                
+                if(get_current_mode() == "percent"){
+                    r += data[i].Percent;
+                    r += ",";
+                }else{
+                    r += data[i].Millions;
+                    r += ",";
+                }
+                
+                
+                r += data[i]["Continent Name"];
+
+                    
+                
+                
+                r += '\n';
+                
+            }
+            console.log(r);
+
+            link = document.createElement('a');
+            link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(r));
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        });
+    }
+
+    
 
         
