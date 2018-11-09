@@ -300,7 +300,7 @@ function loadData(){
             if(image._groups[0][0] == null){
                 //d3.select("#mainArea").append("h1").attr("id","temp").text("Home Team Score Advantage at Venue").enter();
                 var image = d3.select("#mainArea").append("svg").attr("id","image").attr("width", WIDTHB).attr("height",HEIGHTB);
-                image.append("rect").attr("x", posx-50).attr("y", posy-50).attr("width",width+100).attr("height", height+200).style("fill", "D6EAFF");
+                image.append("rect").attr("x", posx-50).attr("y", posy-50).attr("width",width+100).attr("height", height+100).style("fill", "D6EAFF");
                 image.append("g").attr("id","xaxis").attr("transform","translate("+ posx +","+ (posy+height/2) +")").call(xaxis).selectAll("text")	
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
