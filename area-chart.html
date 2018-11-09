@@ -124,6 +124,7 @@
     <button type="button" class="btn btn-secondary btn-lg" onclick="redo()">
         Redo
     </button>
+    <button id = "download" type="button" class="btn btn-default" onclick = "downloadData()" >Download this Data</button>
 </div>
 
 <div class="control-group">
@@ -175,6 +176,7 @@
     var mode = "millions";
     filterData("generate");
 
+    var currentData;
 
     var backHistory = [];
     var forwardHistory = [];
@@ -447,6 +449,9 @@
 
             } // End of ifCountry
 
+            currentData = selectedData;
+
+
             if(chooseNext == "generate"){
                 generate(selectedData)
             }else{
@@ -454,6 +459,43 @@
             }
 
         }); // End of file loop
+    }
+
+
+    // download the current data selection
+    function downloadData(){
+        var r = "";
+
+        // Headers and years
+        if(filter=="continent"){
+            r+= "Continent,";
+        }else{r+= "Country,";}
+
+        for(var i = 0; i < 10; i++){
+            r+= "200"+i+",";
+        }
+        for(var i = 10; i < 15; i++){
+            r+= "20"+i+",";
+        }
+        r+= "2015";
+        r+= "\n";
+
+            // countries and values
+            for(var i = 0; i < currentData.length; i++){
+                r += currentData[i].key;
+                r += ",";
+                for(var j = 0; j < 16; j++) {
+                    r += currentData[i].values[j][1]+",";
+                }
+                r += '\n';
+            }
+
+            link = document.createElement('a');
+            link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(r));
+            link.setAttribute('download', "data.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
     }
 
 
