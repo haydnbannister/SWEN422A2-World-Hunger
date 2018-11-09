@@ -49,18 +49,25 @@
             <div class="btn-group" >&nbsp; &nbsp; 
             </div>
             <div class="btn-group" >
-                <button type="button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
+                <button type="button" id = "percent_button" class="btn btn-default" onclick = "changeMode('percent')" >By %</button>
             </div>
             <div class="btn-group" >
-                <button type="button" class="btn btn-default" onclick = "changeMode('pop')" >By Pop</button>
+                <button type="button" id = "pop_button" class="btn btn-primary" onclick = "changeMode('pop')" >By Pop</button>
             </div>
-            
+            <div class="btn-group" >
+                <button id = "download" type="button" class="btn btn-default" onclick = "download()" >Download</button>
+            </div>
 </center>
 <center id = svgArea></center>
 
 <script src="UI.js"></script>
 
 <script> 
+
+
+    // python -m http.server 8000
+    // http://localhost:8000/bar-chart.html
+    
 
     //SVG size
     const  WIDTHB = 1100;
@@ -167,7 +174,7 @@ function loadData(){
                         }).on("mouseout",function(d,i){
                             d3.selectAll("#venueOut").remove();
                         }).style("fill", "Red");
-                    }file:///home/dalefielro/Downloads/UI.js
+                    }
             
                 
             }
